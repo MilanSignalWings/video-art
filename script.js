@@ -24,11 +24,23 @@ videoElements.forEach((video, index) => {
     
     video.addEventListener('webkitbeginfullscreen', (e) => {
         e.preventDefault();
-    });
+        e.stopPropagation();
+    }, true);
     
     video.addEventListener('webkitendfullscreen', (e) => {
         e.preventDefault();
-    });
+        e.stopPropagation();
+    }, true);
+    
+    video.addEventListener('fullscreenchange', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+    }, true);
+    
+    video.addEventListener('webkitfullscreenchange', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+    }, true);
     
     video.load();
     
@@ -53,25 +65,28 @@ function switchVideo(index) {
 
 function enterFullscreen() {
     const elem = document.documentElement;
-    const activeVideo = videoElements[currentIndex];
     
-    if (activeVideo.webkitEnterFullscreen) {
-        try {
-            activeVideo.webkitEnterFullscreen();
-        } catch (e) {}
-    } else if (activeVideo.requestFullscreen) {
-        activeVideo.requestFullscreen().catch(() => {});
-    } else if (elem.requestFullscreen) {
+    if (elem.requestFullscreen) {
         elem.requestFullscreen().catch(() => {});
     } else if (elem.webkitRequestFullscreen) {
         elem.webkitRequestFullscreen();
+    } else if (elem.webkitEnterFullscreen) {
+        elem.webkitEnterFullscreen();
     } else if (elem.msRequestFullscreen) {
         elem.msRequestFullscreen();
+    } else if (elem.mozRequestFullScreen) {
+        elem.mozRequestFullScreen();
     }
     
     if (window.scrollTo) {
-        window.scrollTo(0, 1);
-        setTimeout(() => window.scrollTo(0, 0), 100);
+        setTimeout(() => {
+            window.scrollTo(0, 1);
+            setTimeout(() => window.scrollTo(0, 0), 50);
+        }, 100);
+    }
+    
+    if (screen.orientation && screen.orientation.lock) {
+        screen.orientation.lock('landscape').catch(() => {});
     }
 }
 
