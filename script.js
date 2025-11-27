@@ -4,6 +4,11 @@ let firstInteraction = true;
 
 const videoElement = document.getElementById('bgVideo');
 
+videoElement.removeAttribute('controls');
+videoElement.controls = false;
+videoElement.setAttribute('disablePictureInPicture', '');
+videoElement.disablePictureInPicture = true;
+
 function setVideo(index) {
     currentIndex = index;
     videoElement.pause();
