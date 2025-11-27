@@ -37,7 +37,7 @@ body {
     scrollbar-width: none;
 }
 
-#bgVideo {
+.bgVideo {
     position: fixed;
     top: 0;
     left: 0;
@@ -47,25 +47,74 @@ body {
     object-fit: cover;
     z-index: -1;
     pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
-#bgVideo::-webkit-media-controls {
+.bgVideo.active {
+    opacity: 1;
+    z-index: 1;
+}
+
+.bgVideo::-webkit-media-controls {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+.bgVideo::-webkit-media-controls-enclosure {
+    display: none !important;
+    opacity: 0 !important;
+}
+
+.bgVideo::-webkit-media-controls-panel {
+    display: none !important;
+    opacity: 0 !important;
+}
+
+.bgVideo::-webkit-media-controls-play-button {
+    display: none !important;
+    opacity: 0 !important;
+}
+
+.bgVideo::-webkit-media-controls-start-playback-button {
+    display: none !important;
+    opacity: 0 !important;
+}
+
+.bgVideo::-webkit-media-controls-overlay-enclosure {
     display: none !important;
 }
 
-#bgVideo::-webkit-media-controls-enclosure {
+.bgVideo::-webkit-media-controls-timeline {
     display: none !important;
 }
 
-#bgVideo::-webkit-media-controls-panel {
+.bgVideo::-webkit-media-controls-current-time-display {
     display: none !important;
 }
 
-#bgVideo::-webkit-media-controls-play-button {
+.bgVideo::-webkit-media-controls-time-remaining-display {
     display: none !important;
 }
 
-#bgVideo::-webkit-media-controls-start-playback-button {
+.bgVideo::-webkit-media-controls-fullscreen-button {
+    display: none !important;
+}
+
+.bgVideo::-webkit-media-controls-toggle-closed-captions-button {
+    display: none !important;
+}
+
+video {
+    outline: none !important;
+}
+
+video:focus {
+    outline: none !important;
+}
+
+video::cue {
     display: none !important;
 }
 
