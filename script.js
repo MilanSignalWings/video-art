@@ -28,11 +28,10 @@ function handleTap() {
     if (firstInteraction) {
         firstInteraction = false;
         enterFullscreen();
-        currentIndex = 1;
     } else {
         currentIndex = (currentIndex + 1) % videos.length;
+        setVideo(currentIndex);
     }
-    setVideo(currentIndex);
 }
 
 document.addEventListener('click', handleTap);
