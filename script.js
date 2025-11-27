@@ -15,16 +15,29 @@ function setVideo(index) {
 function enterFullscreen() {
     const elem = document.documentElement;
     
-    if (elem.requestFullscreen) {
+    if (videoElement.webkitEnterFullscreen) {
+        try {
+            videoElement.webkitEnterFullscreen();
+        } catch (e) {}
+    } else if (videoElement.requestFullscreen) {
+        videoElement.requestFullscreen().catch(() => {});
+    } else if (elem.requestFullscreen) {
         elem.requestFullscreen().catch(() => {});
     } else if (elem.webkitRequestFullscreen) {
         elem.webkitRequestFullscreen();
     } else if (elem.msRequestFullscreen) {
         elem.msRequestFullscreen();
     }
+    
+    if (window.scrollTo) {
+        window.scrollTo(0, 1);
+        setTimeout(() => window.scrollTo(0, 0), 100);
+    }
 }
 
-function handleTap() {
+function handleTap(e) {
+    e.preventDefault();
+    
     if (firstInteraction) {
         firstInteraction = false;
         enterFullscreen();
@@ -35,7 +48,7 @@ function handleTap() {
 }
 
 document.addEventListener('click', handleTap);
-document.addEventListener('touchend', handleTap);
+document.addEventListener('touchend', handleTap, { passive: false });
 
 setVideo(0);
 
