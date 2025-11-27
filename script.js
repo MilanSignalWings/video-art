@@ -84,10 +84,6 @@ function enterFullscreen() {
             setTimeout(() => window.scrollTo(0, 0), 50);
         }, 100);
     }
-    
-    if (screen.orientation && screen.orientation.lock) {
-        screen.orientation.lock('landscape').catch(() => {});
-    }
 }
 
 function handleTap(e) {
