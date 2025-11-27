@@ -77,6 +77,7 @@ function enterFullscreen() {
 
 function handleTap(e) {
     e.preventDefault();
+    e.stopPropagation();
     
     if (firstInteraction) {
         firstInteraction = false;
@@ -93,6 +94,11 @@ function handleTap(e) {
     }
 }
 
-document.addEventListener('click', handleTap);
-document.addEventListener('touchend', handleTap, { passive: false });
+const tapOverlay = document.getElementById('tapOverlay');
+
+tapOverlay.addEventListener('click', handleTap);
+tapOverlay.addEventListener('touchend', handleTap, { passive: false });
+tapOverlay.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+}, { passive: false });
 
