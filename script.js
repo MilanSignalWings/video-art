@@ -13,12 +13,24 @@ const loadingScreen = document.getElementById('loadingScreen');
 function checkAllVideosLoaded() {
     videosReady++;
     if (videosReady >= videoElements.length) {
-        setTimeout(() => {
+        // All videos are loaded, start playing the first one
+        const firstVideo = videoElements[0];
+        firstVideo.play().then(() => {
+            // Video started successfully, hide loading screen
+            setTimeout(() => {
+                loadingScreen.classList.add('hidden');
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                }, 500);
+            }, 200);
+        }).catch(() => {
+            // If autoplay fails, just hide the loading screen
+            // User will need to tap to start
             loadingScreen.classList.add('hidden');
             setTimeout(() => {
                 loadingScreen.style.display = 'none';
             }, 500);
-        }, 300);
+        });
     }
 }
 
@@ -64,7 +76,7 @@ videoElements.forEach((video, index) => {
     
     if (index === 0) {
         video.classList.add('active');
-        video.play().catch(() => {});
+        // Don't play yet - wait for all videos to load
     }
 });
 
@@ -110,10 +122,9 @@ function handleTap(e) {
         firstInteraction = false;
         enterFullscreen();
         
-        videoElements.forEach((video, i) => {
-            if (i !== 0) {
-                video.play().catch(() => {});
-            }
+        // Make sure ALL videos are playing (including the first one)
+        videoElements.forEach((video) => {
+            video.play().catch(() => {});
         });
     } else {
         currentIndex = (currentIndex + 1) % videoElements.length;
