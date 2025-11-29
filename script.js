@@ -1,11 +1,26 @@
 let currentIndex = 0;
 let firstInteraction = true;
+let videosReady = 0;
 
 const videoElements = [
     document.getElementById('video0'),
     document.getElementById('video1'),
     document.getElementById('video2')
 ];
+
+const loadingScreen = document.getElementById('loadingScreen');
+
+function checkAllVideosLoaded() {
+    videosReady++;
+    if (videosReady >= videoElements.length) {
+        setTimeout(() => {
+            loadingScreen.classList.add('hidden');
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+            }, 500);
+        }, 300);
+    }
+}
 
 videoElements.forEach((video, index) => {
     video.removeAttribute('controls');
@@ -15,6 +30,9 @@ videoElements.forEach((video, index) => {
     video.disablePictureInPicture = true;
     video.setAttribute('webkit-playsinline', '');
     video.setAttribute('playsinline', '');
+    video.preload = 'auto';
+    
+    video.addEventListener('canplaythrough', checkAllVideosLoaded, { once: true });
     
     video.addEventListener('contextmenu', (e) => {
         e.preventDefault();
@@ -47,8 +65,6 @@ videoElements.forEach((video, index) => {
     if (index === 0) {
         video.classList.add('active');
         video.play().catch(() => {});
-    } else {
-        video.preload = 'auto';
     }
 });
 
