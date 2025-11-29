@@ -13,24 +13,20 @@ const loadingScreen = document.getElementById('loadingScreen');
 function checkAllVideosLoaded() {
     videosReady++;
     if (videosReady >= videoElements.length) {
-        // All videos are loaded, start playing the first one
-        const firstVideo = videoElements[0];
-        firstVideo.play().then(() => {
-            // Video started successfully, hide loading screen
-            setTimeout(() => {
-                loadingScreen.classList.add('hidden');
-                setTimeout(() => {
-                    loadingScreen.style.display = 'none';
-                }, 500);
-            }, 200);
-        }).catch(() => {
-            // If autoplay fails, just hide the loading screen
-            // User will need to tap to start
+        // All videos are loaded, start playing all of them
+        videoElements.forEach((video) => {
+            video.play().catch(() => {
+                // Some browsers may still block autoplay
+            });
+        });
+        
+        // Hide loading screen after a brief moment
+        setTimeout(() => {
             loadingScreen.classList.add('hidden');
             setTimeout(() => {
                 loadingScreen.style.display = 'none';
             }, 500);
-        });
+        }, 200);
     }
 }
 
